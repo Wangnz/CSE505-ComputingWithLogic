@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Booth arrangement</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="lpcomp17.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Booth arrangement</h1>
+</div>
+<h4 id="file-name-booth.pl">(file name: booth.pl)</h4>
+<p>Kim has just finished setting up booths for a conference poster session. However now an extra booth has been added to the plan.</p>
+<p>Each booth has a fixed width and depth. At each step Kim may move a booth by distance 1 in any cardinal direction (left, right, forward, backward), except it may not pass through another booth. How many steps will it take to move the new booth to its target location, preserving the positions of all other booths?</p>
+<h3 id="input-format">Input format</h3>
+<p>An input file for LP systems contains the following facts:</p>
+<ul>
+<li>One fact of the form room(W,H), which specifies the width W and height H of the room (3 ≤ W, H ≤ 20).</li>
+<li>One fact booths(N), which specifies the number of booths (1 ≤ N ≤ 20).</li>
+<li>A relation that consists of facts of the form dimension(B, W, H), which specifies the width W and height H of booth B.</li>
+<li>A relation consisting of facts of the form position(B, X, Y), specifying the initial position (X, Y) of booth B.</li>
+<li>One fact target(B, X, Y), specifying the destination (X, Y) of the target booth B.</li>
+<li>An additional fact <code>horizon(H)</code> gives an upper bound on the number of moves to be performed.</li>
+</ul>
+<p>An input file for Minizinc specifies the size of the room (W, H), the number of booths (booths), the dimensions of each booth (widths, heights), the positions (xs, ys) of each booth, and the target booth (target_booth) with its destination (target_x, target_y).</p>
+<h3 id="output-format">Output format</h3>
+<p>The output should contain exactly one fact of the form moves(K), where K is the minimum number of moves required to rearrange the displays.</p>
+<h3 id="examples">Examples</h3>
+<table class="extable">
+<tr class="exhead">
+<td>
+LP intput
+</td>
+<td>
+Minizinc intput
+</td>
+<td>
+Output
+</td>
+</tr>
+<tr class="ex">
+<td>
+<pre><code>room(3, 3).
+booths(1).
+dimension(1, 1, 1).
+position(1, 0, 0).
+target(1, 2, 2).
+horizon(10).</code></pre>
+</td>
+<td>
+<pre><code>W = 3;
+H = 3;
+booths = 1;
+widths = [1];
+heights = [1];
+xs = [0];
+ys = [0];
+target_booth = 1;
+target_x = 2;
+target_y = 2; 
+horizon = 10;</code></pre>
+</td>
+<td>
+<pre><code>moves(4).</code></pre>
+</td>
+<tr class="ex">
+<td>
+<pre><code>room(3, 3).
+booths(3).
+dimension(1, 2, 1).
+dimension(2, 2, 1).
+dimension(3, 1, 1).
+position(1, 0, 1).
+position(2, 1, 2).
+position(3, 0, 0).
+target(3, 0, 2).
+horizon(10).</code></pre>
+</td>
+<td>
+<pre><code>W = 3;
+H = 3;
+booths = 3;
+widths = [2, 2, 1];
+heights = [1, 1, 1]; 
+xs = [0, 1, 0];
+ys = [1, 2, 0];
+target_booth = 3;
+target_x = 0;
+target_y = 2;
+horizon = 10;</code></pre>
+</td>
+<td>
+<pre><code>moves(4).</code></pre>
+</td>
+</tr>
+</table>
+<p><strong>Acknowledgment:</strong> thanks to Annie Liu for suggesting related problems.</p>
+</body>
+</html>

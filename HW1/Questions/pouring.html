@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Pouring beer</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="lpcomp17.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Pouring beer</h1>
+</div>
+<h4 id="file-name-pour.pl">(file name: pour.pl)</h4>
+<p>Ethan just ordered a jug of beer, to be split evenly among a group of friends. At the table is a collection of (sufficiently) clean glassware in a range of sizes, but - perhaps due to having had a pint or three - he cannot partially fill glasses with any precision.</p>
+<p>Assume Ethan may only pour beer from one container into another until either (a) the source is empty or (b) the destination is full. Given the glassware available, can Ethan divide the beer fairly amongst his friends? That is, can the beer be split between vessels, and the vessels (including the jug) allocated to friends, such that each friend receives an equal share of beer?</p>
+<h3 id="input-format">Input format</h3>
+<p>An input file for LP systems contains the following facts:</p>
+<ul>
+<li>One fact of the form <code>vessels(N)</code> denoting the number of vessels.</li>
+<li>One fact <code>source(V)</code> denoting the (full) vessel which is to be shared.</li>
+<li>One fact of the form <code>people(M)</code> specifying the number of people sharing the beer.</li>
+<li>A relation <code>capacity(V, K)</code> specifying the capacity <code>K</code> of each vessel <code>V</code>.</li>
+<li>An additional fact <code>horizon(L)</code> gives an upper bound on the number of actions to be taken.</li>
+</ul>
+<p>An input file for Minizinc specifies the number of vessels and people (<code>vessels</code> and <code>people</code> respectively), the source vessel (<code>source</code>), and the capacity of each vessel (<code>capacity</code>).</p>
+<h3 id="output-format">Output format</h3>
+<p>The output should contain exactly one fact: <code>split(yes)</code> if the jug may be fairly split among the available glasses, and <code>split(no)</code> otherwise.</p>
+<h3 id="examples">Examples</h3>
+<table class="extable">
+<tr class="exhead">
+<td>
+LP intput
+</td>
+<td>
+Minizinc intput
+</td>
+<td>
+Output
+</td>
+</tr>
+<tr class="ex">
+<td>
+<pre><code>vessels(4).
+source(1).
+people(3).
+capacity(1, 12).
+capacity(2, 5).
+capacity(3, 3).
+capacity(4, 1).
+horizon(10).</code></pre>
+</td>
+<td>
+<pre><code>vessels = 4;
+source = 1;
+people = 3;
+capacity = [12, 5, 3, 1];
+horizon = 10;</code></pre>
+</td>
+<td>
+<pre><code>split(yes).</code></pre>
+</td>
+<tr class="ex">
+<td>
+<pre><code>vessels(4).
+source(1);
+people(3);
+capacity(1, 12);
+capacity(2, 3);
+capacity(3, 3);
+capacity(4, 2);
+horizon(10);</code></pre>
+</td>
+<td>
+<pre><code>vessels = 4;
+source = 1;
+people = 3;
+capacity = [12, 3, 3, 2];
+horizon = 10;</code></pre>
+</td>
+<td>
+<pre><code>split(no).</code></pre>
+</td>
+</tr>
+<tr class="ex">
+<td>
+<pre><code>vessels(5).
+source(1).
+people(3).
+capacity(1, 12).
+capacity(2, 3).
+capacity(3, 3).
+capacity(4, 3).
+capacity(5, 2).
+horizon(10). </code></pre>
+<td>
+<pre><code>vessels = 5;
+source = 1;
+people = 3;
+capacity = [12, 3, 3, 3, 2];
+horizon = 10;</code></pre>
+</td>
+<td>
+<pre><code>split(yes).</code></pre>
+</td>
+</tr>
+</table>
+</body>
+</html>

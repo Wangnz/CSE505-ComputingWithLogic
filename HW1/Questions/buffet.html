@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Buffet placement</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="lpcomp17.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Buffet placement</h1>
+</div>
+<h4 id="file-name-buffet.pl">(file name: buffet.pl)</h4>
+<p>Leigh is sorting out the placement of dishes for a conference buffet, and must decide how many tables are needed to place the dishes. Each dish is either hot or cold, and occupies a fixed width of the table. Additionally, a hot and a cold dish may not be placed immediately next to each other; they must be separated by a minimum distance. The venue has only provides one size of table.</p>
+<p>Given the number of each dish type to be served, the objective is to find the minimum number of tables necessary to serve all dishes.</p>
+<h3 id="input-format">Input format</h3>
+<p>An input file for LP systems contains the following:</p>
+<ul>
+<li>One fact of the form <code>dishes(N)</code>, specifying that there are <code>N</code> <em>kinds</em> of dishes.</li>
+<li>One fact <code>hot(H)</code>, specifying that the first <code>H</code> dishes are hot. Thus dishes 1..H are hot, and dishes <code>H+1..N</code> are cold.</li>
+<li>One fact of the form <code>separation(D)</code>, specifying the minimum distance <code>D</code> between hot and cold foods.</li>
+<li>One fact <code>table_width(L)</code> indicating the width of a buffet table.</li>
+<li>A relation consisting of facts of the form <code>dish_width(S, W)</code>, which specifies that a dish of kind <code>S</code> has width <code>W</code>.</li>
+<li>A relation consisting of facts of the form <code>demand(S, W)</code>, specifying the number of dishes of kind <code>S</code> we require.</li>
+</ul>
+<p>An input file for Minizinc specifies the total number of dish kinds (<code>dishes</code>), and number of hot dishes (<code>hot</code>), minimum separation between hot and cold dishes (<code>separation</code>), table width (<code>table_width</code>), and the width and demand for each dish kind (<code>dish_width</code> and <code>demand</code>, respectively).</p>
+<h3 id="output-format">Output format</h3>
+<p>The output should contain exactly one fact of the form <code>tables(K)</code>, where <code>K</code> is the minimum number of tables required to serve the required dishes.</p>
+<h3 id="examples">Examples</h3>
+<table class="extable">
+<tr class="exhead">
+<td>
+LP intput
+</td>
+<td>
+Minizinc intput
+</td>
+<td>
+Output
+</td>
+</tr>
+<tr class="ex">
+<td>
+<pre><code>dishes(3).
+separation(1).
+hot(1).
+table_width(4).
+
+dish_width(1, 1).
+dish_width(2, 1).
+dish_width(3, 2).
+
+demand(1, 1).
+demand(2, 1).
+demand(3, 1).</code></pre>
+</td>
+<td>
+<pre><code>dishes = 3;
+separation = 1;
+hot = 1;
+
+table_width = 4;
+dish_width = [1, 1, 2];
+demand = [1, 1, 1];</code></pre>
+</td>
+<td>
+<pre><code>tables(2).</code></pre>
+</td>
+<tr>
+<td>
+<pre><code>dishes(4).
+separation(2).
+hot(2).
+
+table_width(4).
+dish_width(1, 1).
+dish_width(2, 2).
+dish_width(3, 2).
+dish_width(4, 1).
+demand(1, 3).
+demand(2, 1).
+demand(3, 1).
+demand(4, 3).</code></pre>
+</td>
+<td>
+<pre><code>dishes = 4;
+separation = 2;
+hot = 2;
+
+table_width = 4;
+dish_width = [1, 2, 2, 1];
+demand = [3, 1, 1, 3];   </code></pre>
+</td>
+<td>
+<pre><code>tables(3).</code></pre>
+</td>
+</tr>
+</table>
+<p><strong>Acknowledgment:</strong> thanks to Annie Liu to pointing us towards related problems.</p>
+</body>
+</html>

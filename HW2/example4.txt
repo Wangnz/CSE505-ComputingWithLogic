@@ -1,0 +1,3 @@
+myClause(1, or(a_1, or(a_2, neg(b_1)))).
+myClause(2, neg(a_1)).
+myQuery(3, or(a_2, neg(b_1))).
